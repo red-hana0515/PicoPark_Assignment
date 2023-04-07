@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 129905647}
   - component: {fileID: 129905649}
   - component: {fileID: 129905648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 254916701}
   - component: {fileID: 254916703}
   - component: {fileID: 254916702}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,6 +392,7 @@ GameObject:
   - component: {fileID: 538807602}
   - component: {fileID: 538807601}
   - component: {fileID: 538807600}
+  - component: {fileID: 538807603}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -465,6 +466,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538807603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538807599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &585949453
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +510,7 @@ GameObject:
   - component: {fileID: 585949454}
   - component: {fileID: 585949456}
   - component: {fileID: 585949455}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +653,7 @@ GameObject:
   - component: {fileID: 920919299}
   - component: {fileID: 920919301}
   - component: {fileID: 920919300}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +848,7 @@ MonoBehaviour:
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 4484613437971866014, guid: cf5f7551ca0354747a91748fa4293fb9,
+  playerPrefab: {fileID: 1771781662427944211, guid: ab795753e6659e9408e85655031a8b3d,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
@@ -831,7 +865,7 @@ GameObject:
   - component: {fileID: 1177072289}
   - component: {fileID: 1177072291}
   - component: {fileID: 1177072290}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +976,7 @@ GameObject:
   - component: {fileID: 1251005503}
   - component: {fileID: 1251005505}
   - component: {fileID: 1251005504}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1164,7 +1198,7 @@ GameObject:
   - component: {fileID: 1544215652}
   - component: {fileID: 1544215654}
   - component: {fileID: 1544215653}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1420,7 @@ GameObject:
   - component: {fileID: 1660139115}
   - component: {fileID: 1660139117}
   - component: {fileID: 1660139116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1497,7 +1531,7 @@ GameObject:
   - component: {fileID: 1725765314}
   - component: {fileID: 1725765316}
   - component: {fileID: 1725765315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: square (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
