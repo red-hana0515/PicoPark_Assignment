@@ -5,6 +5,11 @@ using Mirror;
 
 public class MyNetworkManager : NetworkManager
 {
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+    }
+
     // Normally responds during loading and calls back to the server after a client is connected
     public override void OnClientConnect()
     {
@@ -26,9 +31,4 @@ public class MyNetworkManager : NetworkManager
         player.SetDisplayColor(displayColor);
     }
 
-    //
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-    }
 }

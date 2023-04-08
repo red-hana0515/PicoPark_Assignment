@@ -7,10 +7,10 @@ using TMPro;
 public class MyNetworkPlayer : NetworkBehaviour
 {
     [SerializeField] private TMP_Text displayNameText = null;
-    [SerializeField] private Renderer displayColorRenderer = null;
+    [SerializeField] private SpriteRenderer displayColorRenderer = null;
 
     [SyncVar(hook = nameof(HandleDisplayNameUpdate))]
-    [SerializeField] private string displayName = "Missing Name";
+    public string displayName = "Missing Name";
 
     // SyncVar will sync all variables to all connected players
     [SyncVar(hook = nameof(HandleDisplayColorUpdate))]
@@ -49,7 +49,7 @@ public class MyNetworkPlayer : NetworkBehaviour
 
     private void HandleDisplayColorUpdate(Color oldCol, Color newCol)
     {
-        displayColorRenderer.material.SetColor("_BaseColor", newCol);
+        displayColorRenderer.color = newCol;
     }
 
     private void HandleDisplayNameUpdate(string oldName, string newName)
