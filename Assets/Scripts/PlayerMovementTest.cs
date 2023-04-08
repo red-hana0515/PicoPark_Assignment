@@ -66,6 +66,11 @@ public class PlayerMovementTest : NetworkBehaviour
         mainCamera = Camera.main;
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        mainCamera.GetComponent<CameraFollow>().setTarget(gameObject.transform);
+    }
+
     [ClientCallback] //created as a client only update function (all clients will call it not the server)
     private void Update()
     {
@@ -83,6 +88,8 @@ public class PlayerMovementTest : NetworkBehaviour
         Vector2 movement = new Vector2(horizontal * speed, rb.velocity.y);
         CmdMove(movement);
     }
+
+
 
     #endregion
 }
