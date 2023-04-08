@@ -27,7 +27,7 @@ public class MyNetworkManager : NetworkManager
         Debug.Log($"Current number of players = {numPlayers}");
         player.SetDisplayName($"Player {numPlayers}");
 
-        Color displayColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        Color displayColor = new Color(Random.Range(0.3f, 1f), Random.Range(0.3f, 1f), Random.Range(0.3f, 1f));
         player.SetDisplayColor(displayColor);
     }
 
