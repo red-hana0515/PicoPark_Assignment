@@ -8,15 +8,31 @@ public class PlayerMovementTest : NetworkBehaviour
 {
     private Camera mainCamera;
 
+    [SyncVar]
     private float horizontal;
+
+    [SyncVar]
+    private Vector2 movement;
+
+    [SyncVar]
+    private Vector3 localScale;
+
+    [SyncVar]
+    private Vector3 playerNameScale;
+
     private float speed = 8f;
     private float jumpingPower = 16f;
 
-    private bool isFacingRight = true;
+    [SyncVar]
+    public bool isFacingRight = true;
+
+    [SyncVar]
+    public bool isGrounded;
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Canvas playerName;
 
     #region server
     [Command]
@@ -27,10 +43,10 @@ public class PlayerMovementTest : NetworkBehaviour
 
     private void CmdJump()
     {
-        //if (Input.GetButtonDown("Jump") && IsGrounded())
-        //{
-        //   rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-        //}
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+           rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+        }
 
         if (Input.GetButtonDown("Jump") && rb.velocity.y > 0f)
         {
@@ -39,23 +55,21 @@ public class PlayerMovementTest : NetworkBehaviour
     }
 
     [Command]
-    private void Flip()
+    public void Flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
             isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
+            localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
+
+            playerNameScale = playerName.transform.localScale;
+            playerNameScale.x *= -1f;
+            playerName.transform.localScale = playerNameScale;
+            Debug.Log("Flipped");
         }
     }
-
-    //[Command]
-    //private bool IsGrounded()
-    //
-    //    return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    //}
-
     #endregion
 
     #region client
@@ -85,7 +99,10 @@ public class PlayerMovementTest : NetworkBehaviour
     [ClientCallback]
     private void FixedUpdate()
     {
-        Vector2 movement = new Vector2(horizontal * speed, rb.velocity.y);
+        if (!isOwned)
+            return;
+
+        movement = new Vector2(horizontal * speed, rb.velocity.y);
         CmdMove(movement);
     }
 
