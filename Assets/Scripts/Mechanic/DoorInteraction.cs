@@ -28,7 +28,6 @@ public class DoorInteraction : NetworkBehaviour
                 if (buttons[i].isPressed == false)
                 {
                     isOpen = false;
-                    Debug.Log("Not Open");
                     break;
                 }
 
@@ -41,7 +40,7 @@ public class DoorInteraction : NetworkBehaviour
     }
 
 
-    void deleteDoor()
+    void DeleteDoor()
     {
         Destroy(this.gameObject);
     }    
@@ -49,25 +48,13 @@ public class DoorInteraction : NetworkBehaviour
     #endregion
 
     #region CLIENT
-
-    void Awake()
-    {
-        doorAnim = blockedDoor.GetComponent<Animator>();
-    }
     
-    // I'm not sure which property to use
-    // Like [Command] or use SyncVar for the animation
-    // You can help be my second pair of eyes, Euan ;w; 
-    // LOL np~
-    // The answer was to use none??? LOL
-    // if it dies it dies :pray:
     public void Update()
     {
         CheckAllButtonsPressed(); 
         if (isOpen)
         {
-            //doorAnim.Play(openDoor);
-            deleteDoor();
+            DeleteDoor();
         }
     }
 

@@ -17,7 +17,6 @@ public class PressureButtonMechanic : NetworkBehaviour
 
     #endregion
 
-
     #region CLIENT
     void Awake()
     {
