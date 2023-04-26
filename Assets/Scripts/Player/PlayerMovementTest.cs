@@ -45,13 +45,14 @@ public class PlayerMovementTest : NetworkBehaviour
     {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-           rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
         if (Input.GetButtonDown("Jump") && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
+
     }
 
     [Command]
@@ -90,6 +91,7 @@ public class PlayerMovementTest : NetworkBehaviour
     {
         if (!isOwned)
             return;
+
 
         horizontal = Input.GetAxisRaw("Horizontal");
         CmdJump();
