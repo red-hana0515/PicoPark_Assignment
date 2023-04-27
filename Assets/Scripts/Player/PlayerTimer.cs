@@ -13,9 +13,9 @@ public class PlayerTimer : NetworkBehaviour
     [SerializeField] Image timerBox;
     [SerializeField] double setTimer = 20;
     [SerializeField] bool startTimer = false;
-    [SerializeField] bool enableAll = false;
 
-    //[Header("SyncVar Values")]
+    [Header("SyncVar Values")]
+    public static bool enableTimer;
     //[SyncVar(hook = nameof(HandleTimeSet))] 
     //[SerializeField] double syncTime = 20;
 
@@ -25,21 +25,18 @@ public class PlayerTimer : NetworkBehaviour
     //[SyncVar(hook = nameof(HandleBoxColor))]
     //[SerializeField] Color colorBox;
 
-    public static PlayerTimer instance;
     double timerCount;
 
     #region SERVER
 
     private void Awake()
     {
-        instance = this;
         timerCount = setTimer;
-        this.gameObject.SetActive(false);
     }
 
     public void CmdCountdown(bool change)
     {
-        gameObject.SetActive(change);
+        timerBox.gameObject.SetActive(change);
         startTimer = change;
     }
 
@@ -87,6 +84,16 @@ public class PlayerTimer : NetworkBehaviour
     [ClientCallback]
     private void Update()
     {
+        if(enableTimer)
+        {
+            startTimer = true;
+        }
+        else
+        {
+            startTimer = false;
+        }
+
+
         if (!startTimer)
         {
             return;

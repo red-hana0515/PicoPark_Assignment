@@ -9,6 +9,14 @@ public class TimerTrigger : NetworkBehaviour
     [SerializeField] bool startPoint;
     [SerializeField] bool endPoint;
 
+    [Command]
+    public void CmdAssignAuthority(NetworkIdentity targetId, NetworkIdentity clientId)
+    {
+        if (!targetId.isOwned)
+        {
+            targetId.AssignClientAuthority(clientId.connectionToClient);
+        }
+    }
 
     #region CLIENT
 
@@ -16,16 +24,16 @@ public class TimerTrigger : NetworkBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            //CmdAssignAuthority(playerTimer.gameObject.GetComponent<NetworkIdentity>(), collision.transform.GetComponent<NetworkIdentity>());
+            //CmdAssignAuthority(collision.transform.GetComponent<NetworkIdentity>(), collision.transform.GetComponent<NetworkIdentity>());
 
             if (startPoint)
             {
-                PlayerTimer.instance.CmdCountdown(true);
+                PlayerTimer.enableTimer = true;
             }
 
             else if (endPoint)
             {
-                PlayerTimer.instance.CmdCountdown(false);
+                PlayerTimer.enableTimer = false;
             }
 
         }
