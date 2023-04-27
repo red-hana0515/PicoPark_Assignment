@@ -8,20 +8,22 @@ using UnityEngine.UI;
 public class PlayerTimer : NetworkBehaviour
 {
     [Header("Timer Values")]
+    [SerializeField] PlayerMovementTest playerMovement;
     [SerializeField] TMP_Text displayTimer;
     [SerializeField] Image timerBox;
     [SerializeField] double setTimer = 20;
-    public bool startTimer;
+    [SerializeField] bool startTimer = false;
+    [SerializeField] bool enableAll = false;
 
-    [Header("SyncVar Values")]
-    [SyncVar(hook = nameof(HandleTimeSet))] 
-    [SerializeField] double syncTime = 20;
+    //[Header("SyncVar Values")]
+    //[SyncVar(hook = nameof(HandleTimeSet))] 
+    //[SerializeField] double syncTime = 20;
 
-    [SyncVar(hook = nameof(HandleTimerText))]
-    [SerializeField] string timerText = "???";
+    //[SyncVar(hook = nameof(HandleTimerText))]
+    //[SerializeField] string timerText = "???";
 
-    [SyncVar(hook = nameof(HandleBoxColor))]
-    [SerializeField] Color colorBox;
+    //[SyncVar(hook = nameof(HandleBoxColor))]
+    //[SerializeField] Color colorBox;
 
     public static PlayerTimer instance;
     double timerCount;
@@ -31,20 +33,8 @@ public class PlayerTimer : NetworkBehaviour
     private void Awake()
     {
         instance = this;
-        timerCount = syncTime;
+        timerCount = setTimer;
         this.gameObject.SetActive(false);
-    }
-
-    [Server]
-    public void SetTimerText(string currTime)
-    {
-        timerText = currTime;
-    }
-
-    [Server]
-    public void SetColorTimer(Color currColor)
-    {
-        colorBox = currColor;
     }
 
     public void CmdCountdown(bool change)
@@ -57,9 +47,8 @@ public class PlayerTimer : NetworkBehaviour
     {
         yield return new WaitForSeconds(Random.Range(3f, 5f));
         startTimer = true;
-        timerCount = syncTime;
+        timerCount = setTimer;
     }
-
 
     void UpdateTimer(double currTime)
     {
@@ -69,6 +58,13 @@ public class PlayerTimer : NetworkBehaviour
             startTimer = false;
             timerBox.color = Color.red;
             StartCoroutine(WaitForLight());
+
+            Vector2 currVelo = playerMovement.rb.velocity;
+
+            if(currVelo.x > 0.0f || currVelo.y > 0.0f)
+            {
+                playerMovement.transform.position = new Vector2(0, 0);
+            }
         }
 
         else
@@ -82,6 +78,7 @@ public class PlayerTimer : NetworkBehaviour
         }
 
     }
+
 
     #endregion
 
@@ -97,7 +94,6 @@ public class PlayerTimer : NetworkBehaviour
             
         else
         {
-
             if (timerCount > 0)
             {
                 timerCount -= Time.deltaTime;
@@ -113,20 +109,20 @@ public class PlayerTimer : NetworkBehaviour
 
     }
 
-    void HandleBoxColor(Color currColor, Color changeColor)
-    {
-        timerBox.color = changeColor;
-    }
+    //void HandleBoxColor(Color currColor, Color changeColor)
+    //{
+    //    timerBox.color = changeColor;
+    //}
 
-    void HandleTimerText(string currTime, string changeTime)
-    {
-        displayTimer.text = changeTime;
-    }
+    //void HandleTimerText(string currTime, string changeTime)
+    //{
+    //    displayTimer.text = changeTime;
+    //}
 
-    void HandleTimeSet(double oldTime, double currTime)
-    {
-        setTimer = currTime;
-    }
+    //void HandleTimeSet(double oldTime, double currTime)
+    //{
+    //    setTimer = currTime;
+    //}
 
     #endregion
 

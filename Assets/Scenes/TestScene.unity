@@ -3548,7 +3548,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  playerTimer: {fileID: 0}
   startPoint: 0
   endPoint: 1
 --- !u!114 &606834239
@@ -3636,7 +3635,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2cb3db618cc942748bfe670f9d159041, type: 3}
-  m_Color: {r: 0.7783019, g: 1, b: 0.79060346, a: 1}
+  m_Color: {r: 0.7783019, g: 1, b: 0.79060346, a: 0.1764706}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7034,7 +7033,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588962619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.7, y: 3.71, z: -2.606575}
+  m_LocalPosition: {x: 31.09, y: 3.71, z: -2.606575}
   m_LocalScale: {x: 1.3931274, y: 8.213622, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7109,7 +7108,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2cb3db618cc942748bfe670f9d159041, type: 3}
-  m_Color: {r: 0.7783019, g: 1, b: 0.79060346, a: 1}
+  m_Color: {r: 0.7783019, g: 1, b: 0.79060346, a: 0.1764706}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7134,7 +7133,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  playerTimer: {fileID: 0}
   startPoint: 1
   endPoint: 0
 --- !u!114 &1588962624

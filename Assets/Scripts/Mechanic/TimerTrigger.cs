@@ -9,22 +9,12 @@ public class TimerTrigger : NetworkBehaviour
     [SerializeField] bool startPoint;
     [SerializeField] bool endPoint;
 
-    #region SERVER
-
-    //[Command]
-    //public void CmdAssignAuthority(NetworkIdentity collID, NetworkIdentity clientID)
-    //{
-    //    Debug.Log("Assigned");
-    //    collID.AssignClientAuthority(clientID.connectionToClient);
-    //}
-
-    #endregion
 
     #region CLIENT
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && isClient)
+        if (collision.gameObject.tag == "Player")
         {
             //CmdAssignAuthority(playerTimer.gameObject.GetComponent<NetworkIdentity>(), collision.transform.GetComponent<NetworkIdentity>());
 
@@ -33,7 +23,7 @@ public class TimerTrigger : NetworkBehaviour
                 PlayerTimer.instance.CmdCountdown(true);
             }
 
-            else if(endPoint)
+            else if (endPoint)
             {
                 PlayerTimer.instance.CmdCountdown(false);
             }

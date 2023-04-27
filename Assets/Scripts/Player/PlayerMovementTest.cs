@@ -29,7 +29,7 @@ public class PlayerMovementTest : NetworkBehaviour
     [SyncVar]
     public bool isGrounded;
 
-    [SerializeField] private Rigidbody2D rb;
+    public Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Canvas playerName;
