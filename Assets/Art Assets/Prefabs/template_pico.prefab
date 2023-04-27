@@ -116,7 +116,7 @@ MonoBehaviour:
   timerBox: {fileID: 5846323113263313047}
   setTimer: 20
   startTimer: 0
-  enableTimer: 0
+  mustStop: 0
 --- !u!1 &1771781662427944211
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +326,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerName: {fileID: 8379670982493227337}
+  timerBool: {fileID: 1893290118859923337}
 --- !u!114 &-7780532340978216432
 MonoBehaviour:
   m_ObjectHideFlags: 0

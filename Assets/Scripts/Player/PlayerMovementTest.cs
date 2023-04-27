@@ -33,6 +33,7 @@ public class PlayerMovementTest : NetworkBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Canvas playerName;
+    [SerializeField] private PlayerTimer timerBool;
 
     #region server
     [Command]
@@ -96,6 +97,14 @@ public class PlayerMovementTest : NetworkBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         CmdJump();
         Flip();
+
+        if (timerBool.mustStop)
+        {
+            if (rb.velocity.x != 0 || rb.velocity.y != 0)
+            {
+                gameObject.transform.position = new Vector2(0, 0);
+            }
+        }
     }
 
     [ClientCallback]

@@ -14,6 +14,8 @@ public class PlayerTimer : NetworkBehaviour
     [SerializeField] double setTimer = 20;
     [SerializeField] bool startTimer = false;
 
+    public bool mustStop = false;
+
     [Header("SyncVar Values")]
     public static bool enableTimer;
     //[SyncVar(hook = nameof(HandleTimeSet))] 
@@ -56,18 +58,15 @@ public class PlayerTimer : NetworkBehaviour
             timerBox.color = Color.red;
             StartCoroutine(WaitForLight());
 
-            Vector2 currVelo = playerMovement.rb.velocity;
-
-            if(currVelo.x > 0.0f || currVelo.y > 0.0f)
-            {
-                playerMovement.transform.position = new Vector2(0, 0);
-            }
+            mustStop = true;
         }
 
         else
         {
             float minutes = Mathf.FloorToInt((float)currTime / 60);
             float seconds = Mathf.FloorToInt((float)currTime % 60);
+
+            mustStop = false;
 
             Debug.Log("Current time = " + minutes + " : " + seconds);
             displayTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
@@ -91,6 +90,7 @@ public class PlayerTimer : NetworkBehaviour
         else
         {
             startTimer = false;
+            mustStop = false;
         }
 
 
