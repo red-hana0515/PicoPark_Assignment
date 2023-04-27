@@ -5,34 +5,41 @@ using Mirror;
 
 public class TimerTrigger : NetworkBehaviour
 {
-    [Header("Timer Reference")]
-    [SerializeField] PlayerTimer playerTimer;
-
     [Header("Trigger Status")]
     [SerializeField] bool startPoint;
     [SerializeField] bool endPoint;
 
-    private void Start()
-    { 
-        playerTimer.gameObject.SetActive(false);
-    }
+    #region SERVER
+
+    //[Command]
+    //public void CmdAssignAuthority(NetworkIdentity collID, NetworkIdentity clientID)
+    //{
+    //    Debug.Log("Assigned");
+    //    collID.AssignClientAuthority(clientID.connectionToClient);
+    //}
+
+    #endregion
+
+    #region CLIENT
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && isClient)
         {
-            if(startPoint)
+            //CmdAssignAuthority(playerTimer.gameObject.GetComponent<NetworkIdentity>(), collision.transform.GetComponent<NetworkIdentity>());
+
+            if (startPoint)
             {
-                playerTimer.gameObject.SetActive(true);
-                playerTimer.startTimer = true;
+                PlayerTimer.instance.CmdCountdown(true);
             }
 
             else if(endPoint)
             {
-                playerTimer.gameObject.SetActive(false);
-                playerTimer.startTimer = false;
+                PlayerTimer.instance.CmdCountdown(false);
             }
 
         }
     }
+
+    #endregion
 }

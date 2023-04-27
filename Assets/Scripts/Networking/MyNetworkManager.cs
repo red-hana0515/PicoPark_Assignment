@@ -5,6 +5,8 @@ using Mirror;
 
 public class MyNetworkManager : NetworkManager
 {
+    [SerializeField] GameObject timerCanvas;
+
     public override void OnStartServer()
     {
         base.OnStartServer();

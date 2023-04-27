@@ -10,27 +10,29 @@ public class PlayerTimer : NetworkBehaviour
     [Header("Timer Values")]
     [SerializeField] TMP_Text displayTimer;
     [SerializeField] Image timerBox;
+    [SerializeField] double setTimer = 20;
     public bool startTimer;
 
     [Header("SyncVar Values")]
-    [SyncVar] [SerializeField] double setTimer = 20;
+    [SyncVar(hook = nameof(HandleTimeSet))] 
+    [SerializeField] double syncTime = 20;
 
     [SyncVar(hook = nameof(HandleTimerText))]
-    [SerializeField] string timerText = "00 : 00";
+    [SerializeField] string timerText = "???";
 
     [SyncVar(hook = nameof(HandleBoxColor))]
     [SerializeField] Color colorBox;
 
+    public static PlayerTimer instance;
     double timerCount;
 
     #region SERVER
 
-    private void Start()
+    private void Awake()
     {
-        if (!isOwned)
-            return;
-
-        timerCount = setTimer;
+        instance = this;
+        timerCount = syncTime;
+        this.gameObject.SetActive(false);
     }
 
     [Server]
@@ -45,22 +47,27 @@ public class PlayerTimer : NetworkBehaviour
         colorBox = currColor;
     }
 
-    [Server]
+    public void CmdCountdown(bool change)
+    {
+        gameObject.SetActive(change);
+        startTimer = change;
+    }
+
     IEnumerator WaitForLight()
     {
         yield return new WaitForSeconds(Random.Range(3f, 5f));
         startTimer = true;
-        timerCount = setTimer;
+        timerCount = syncTime;
     }
 
-    [Command]
+
     void UpdateTimer(double currTime)
     {
         if (currTime <= 0)
         {
             currTime = 0;
             startTimer = false;
-            SetColorTimer(Color.red);
+            timerBox.color = Color.red;
             StartCoroutine(WaitForLight());
         }
 
@@ -69,8 +76,9 @@ public class PlayerTimer : NetworkBehaviour
             float minutes = Mathf.FloorToInt((float)currTime / 60);
             float seconds = Mathf.FloorToInt((float)currTime % 60);
 
-            SetTimerText(string.Format("{0:00}:{1:00}", minutes, seconds));
-            SetColorTimer(Color.green);
+            Debug.Log("Current time = " + minutes + " : " + seconds);
+            displayTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timerBox.color = Color.green;
         }
 
     }
@@ -83,17 +91,26 @@ public class PlayerTimer : NetworkBehaviour
     private void Update()
     {
         if (!startTimer)
+        {
             return;
+        }
+            
         else
         {
+
             if (timerCount > 0)
+            {
                 timerCount -= Time.deltaTime;
+            }   
 
             else
+            {
                 timerCount = 0;
+            }
 
             UpdateTimer(timerCount);
         }
+
     }
 
     void HandleBoxColor(Color currColor, Color changeColor)
@@ -104,6 +121,11 @@ public class PlayerTimer : NetworkBehaviour
     void HandleTimerText(string currTime, string changeTime)
     {
         displayTimer.text = changeTime;
+    }
+
+    void HandleTimeSet(double oldTime, double currTime)
+    {
+        setTimer = currTime;
     }
 
     #endregion
