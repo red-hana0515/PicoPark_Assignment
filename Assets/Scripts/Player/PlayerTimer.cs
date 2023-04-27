@@ -8,44 +8,59 @@ using UnityEngine.UI;
 public class PlayerTimer : NetworkBehaviour
 {
     [Header("Timer Values")]
-    [SerializeField] double setTimer = 20;
-    [SerializeField] TMP_Text timerText;
-    [SerializeField] Image colorBox;
-
-    [Header("Timer Bools")]
+    [SerializeField] TMP_Text displayTimer;
+    [SerializeField] Image timerBox;
     public bool startTimer;
+
+    [Header("SyncVar Values")]
+    [SyncVar] [SerializeField] double setTimer = 20;
+
+    [SyncVar(hook = nameof(HandleTimerText))]
+    [SerializeField] string timerText = "00 : 00";
+
+    [SyncVar(hook = nameof(HandleBoxColor))]
+    [SerializeField] Color colorBox;
 
     double timerCount;
 
+    #region SERVER
+
     private void Start()
     {
+        if (!isOwned)
+            return;
+
         timerCount = setTimer;
     }
 
-    private void Update()
+    [Server]
+    public void SetTimerText(string currTime)
     {
-        if (!startTimer)
-            return;
-        else
-        {   
-            if (timerCount > 0)
-                timerCount -= Time.deltaTime;
-
-            else
-                timerCount = 0;
-
-            Timer(timerCount);
-        }
+        timerText = currTime;
     }
 
-
-    void Timer(double currTime)
+    [Server]
+    public void SetColorTimer(Color currColor)
     {
-        if(isClient && currTime <= 0)
+        colorBox = currColor;
+    }
+
+    [Server]
+    IEnumerator WaitForLight()
+    {
+        yield return new WaitForSeconds(Random.Range(3f, 5f));
+        startTimer = true;
+        timerCount = setTimer;
+    }
+
+    [Command]
+    void UpdateTimer(double currTime)
+    {
+        if (currTime <= 0)
         {
             currTime = 0;
             startTimer = false;
-            colorBox.color = Color.red;
+            SetColorTimer(Color.red);
             StartCoroutine(WaitForLight());
         }
 
@@ -53,17 +68,44 @@ public class PlayerTimer : NetworkBehaviour
         {
             float minutes = Mathf.FloorToInt((float)currTime / 60);
             float seconds = Mathf.FloorToInt((float)currTime % 60);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-            colorBox.color = Color.green;
+
+            SetTimerText(string.Format("{0:00}:{1:00}", minutes, seconds));
+            SetColorTimer(Color.green);
         }
 
     }
 
-    IEnumerator WaitForLight()
+    #endregion
+
+    #region CLIENTS
+
+    [ClientCallback]
+    private void Update()
     {
-        yield return new WaitForSeconds(Random.Range(3f, 5f));
-        startTimer = true;
-        timerCount = setTimer;
+        if (!startTimer)
+            return;
+        else
+        {
+            if (timerCount > 0)
+                timerCount -= Time.deltaTime;
+
+            else
+                timerCount = 0;
+
+            UpdateTimer(timerCount);
+        }
     }
+
+    void HandleBoxColor(Color currColor, Color changeColor)
+    {
+        timerBox.color = changeColor;
+    }
+
+    void HandleTimerText(string currTime, string changeTime)
+    {
+        displayTimer.text = changeTime;
+    }
+
+    #endregion
 
 }
