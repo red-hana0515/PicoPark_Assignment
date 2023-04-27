@@ -24,6 +24,7 @@ public class GroundCheck : MonoBehaviour
             isLanded();
         }
 
+        //if land on spikes go back to start
         if(collision.gameObject.layer == 7)
         {
             pM.gameObject.transform.position = new Vector2(0, 0);
